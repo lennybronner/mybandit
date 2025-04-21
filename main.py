@@ -32,13 +32,13 @@ if __name__ == "__main__":
 
     if args.algo == "comparison":
         if args.mode == "classic":
-            run_classic_comparison.run_all(rounds=args.rounds)
+            run_classic_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms)
         elif args.mode == "contextual":
             run_contextual_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms,
                                               n_features=args.n_features)
     else:
         if args.mode == "classic":
-            run_classic.run(rounds=args.rounds, algo=args.algo, epsilon=args.epsilon)
+            run_classic.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms, epsilon=args.epsilon)
         elif args.mode == "contextual":
             run_contextual.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms,
                                n_features=args.n_features, alpha=args.alpha, v=args.v)

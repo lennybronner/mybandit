@@ -24,5 +24,3 @@ python main.py --mode classic --algo comparison --rounds 10000
 - non-stationarity
 - combinatorial bandits
 - (maybe adverserial bandits)
-
-- real-valued rewards

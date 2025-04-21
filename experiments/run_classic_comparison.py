@@ -4,8 +4,10 @@ from bandits.classic.thompson import ThompsonSamplingBandit
 from experiments.environments.classic import ClassicBanditEnv
 from experiments.utils.plot import plot_multiple_cumulative_rewards, plot_multiple_regrets
 
-def run_all(rounds=10000):
-    arm_probs = [0.2, 0.5, 0.8]
+import numpy as np
+
+def run_all(rounds=10000, n_arms=3):
+    arm_probs = np.random.uniform(0.3, 0.9, size=n_arms)
     envs = {algo: ClassicBanditEnv(arm_probs) for algo in ["epsilon", "ucb", "thompson"]}
     optimal_reward = max(arm_probs)
 

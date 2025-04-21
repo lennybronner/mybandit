@@ -4,8 +4,9 @@ from bandits.classic.thompson import ThompsonSamplingBandit
 from experiments.environments.classic import ClassicBanditEnv
 from experiments.utils.plot import plot_cumulative_reward, plot_arm_selection
 
+import numpy as np
 
-def run(rounds=1000, algo="epsilon_greedy", **kwargs):
+def run(rounds=1000, n_arms=3, algo="epsilon_greedy", **kwargs):
     """
     Run the Epsilon-Greedy Bandit algorithm on a classic bandit environment.
 
@@ -14,8 +15,7 @@ def run(rounds=1000, algo="epsilon_greedy", **kwargs):
     - rounds: Number of rounds to run (default is 1000).
     - epsilon: Probability of exploration (default is 0.1).
     """
-    arm_probs = [0.2, 0.5, 0.8]  # Example probabilities for each arm
-    n_arms = len(arm_probs)
+    arm_probs = np.random.uniform(0.3, 0.9, size=n_arms).round(2)
 
     env = ClassicBanditEnv(arm_probs)
     if algo == "epsilon_greedy":
