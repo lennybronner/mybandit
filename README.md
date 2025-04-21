@@ -29,6 +29,7 @@ python main.py --mode classic --algo comparison --rounds 10000
 | epsilon      | float   | exploration/exploitation outcome for `epsilon_greedy` |
 | alpha        | float   | exploration parameter for `LinUCB`     |
 | v            | float   | variance parameter for `LinThompson`   |
+| lr           | float   | learning rate for contextual `epsilon_greedy` |
 | gap_strength | float   | how similar/different arms should be (contextual comparison)      |
 | noise_std    | float   | standard deviation for noise in rewards (contextual)    |
 | reward_type  | str     | `gaussian` or `bernoulli` (only for contextual)    |

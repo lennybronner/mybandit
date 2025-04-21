@@ -1,5 +1,7 @@
 from bandits.contextual.linucb import LinUCBBandit
 from bandits.contextual.lin_thompson import LinThompsonBandit
+from bandits.contextual.contextual_epsilon_greedy import ContextualEpsilonGreedyBandit
+from bandits.contextual.logistic_bandit import LogisticBandit
 from experiments.environments.contextual import ContextualBanditEnv
 from experiments.utils.plot import plot_cumulative_reward, plot_arm_selection, plot_running_ctr
 
@@ -12,6 +14,13 @@ def run(rounds=1000, algo='linucb', n_arms=3, n_features=5, noise_std=0.2, rewar
     elif algo == 'linthompson':
         v = kwargs.get('v', 1.0)
         bandit = LinThompsonBandit(n_arms=n_arms, n_features=n_features, v=v)
+    elif algo == 'epsilon_greedy':
+        epsilon = kwargs.get('epsilon', 0.1)
+        lr = kwargs.get('lr', 0.01)
+        bandit = ContextualEpsilonGreedyBandit(n_arms=n_arms, n_features=n_features, epsilon=epsilon, lr=lr)
+    elif algo == "logistic":
+        lr = kwargs.get('lr', 0.01)
+        bandit = LogisticBandit(n_arms=n_arms, n_features=n_features, lr=lr)
     else:
         raise ValueError(f"Unknown algorithm: {algo}")
 

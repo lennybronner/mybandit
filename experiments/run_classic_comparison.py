@@ -6,8 +6,8 @@ from experiments.utils.plot import plot_multiple_cumulative_rewards, plot_multip
 
 import numpy as np
 
-def run_all(rounds=10000, n_arms=3, verbose=False, sweep=False):
-    epsilons = [0.1]
+def run_all(rounds=10000, n_arms=3, verbose=False, sweep=False, **kwargs):
+    epsilons = [kwargs.get("epsilon", 0.1)]
     if sweep:
         epsilons = [0.1, 0.5, 0.9]
 

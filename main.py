@@ -20,6 +20,8 @@ if __name__ == "__main__":
                         help="Exploration parameter (only for LinUCB)")
     parser.add_argument("--v", type=float, default=1.0,
                         help="Variance parameter (only for LinThompson)")
+    parser.add_argument("--lr", type=float, default=0.01,
+                        help="Learning rate (only for contextual epsilon-greedy)")
     parser.add_argument("--gap_strength", type=float, default=1,
                         help="How big of a gap between the arms (only for contextual comparison)")
     parser.add_argument("--noise_std", type=float, default=0.2,
@@ -37,12 +39,13 @@ if __name__ == "__main__":
 
     if args.algo == "comparison":
         if args.mode == "classic":
-            run_classic_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms, verbose=args.verbose, sweep=args.sweep)
+            run_classic_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms, verbose=args.verbose, sweep=args.sweep, epsilon=args.epsilon)
         elif args.mode == "contextual":
             run_contextual_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms,
                                               n_features=args.n_features, noise_std=args.noise_std,
                                               gap_strength=args.gap_strength, reward_type=args.reward_type,
-                                              verbose=args.verbose, sweep=args.sweep)
+                                              verbose=args.verbose, sweep=args.sweep,
+                                              alpha=args.alpha, v=args.v, epsilon=args.epsilon, lr=args.lr)
     else:
         if args.mode == "classic":
             run_classic.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms, epsilon=args.epsilon)
@@ -50,4 +53,4 @@ if __name__ == "__main__":
             run_contextual.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms,
                                n_features=args.n_features, noise_std=args.noise_std, 
                                reward_type=args.reward_type,
-                               alpha=args.alpha, v=args.v)
+                               alpha=args.alpha, v=args.v, epsilon=args.epsilon, lr=args.lr)

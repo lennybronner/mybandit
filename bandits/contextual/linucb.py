@@ -31,15 +31,16 @@ class LinUCBBandit(BaseBandit):
         x = kwargs.get('context', None)
         if x is None:
             raise ValueError("Context must be provided for LinUCB.")
-        p = np.zeros(self.n_arms)
+        
+        scores = np.zeros(self.n_arms)
 
         for a in range(self.n_arms):
             A_inv = np.linalg.inv(self.A[a])
             theta = A_inv @ self.b[a]
             uncertainty = self.alpha * np.sqrt(x.T @ A_inv @ x)
-            p[a] = x.T @ theta + uncertainty
+            scores[a] = x.T @ theta + uncertainty
 
-        return np.argmax(p)
+        return np.argmax(scores)
     
     def update(self, arm, reward, **kwargs):
         x = kwargs.get('context', None)

@@ -2,6 +2,8 @@ import numpy as np
 
 from bandits.contextual.linucb import LinUCBBandit
 from bandits.contextual.lin_thompson import LinThompsonBandit
+from bandits.contextual.contextual_epsilon_greedy import ContextualEpsilonGreedyBandit
+from bandits.contextual.logistic_bandit import LogisticBandit
 from bandits.classic.ucb import UCB1Bandit
 from bandits.classic.thompson import ThompsonSamplingBandit
 from experiments.environments.contextual import ContextualBanditEnv
@@ -21,12 +23,15 @@ def run_bandit_on_contexts(name, bandit, contexts, env, optimal_rewards, verbose
             print(f"[{name}] Round {t}: arm={arm}, reward={reward:.2f}, optimal={opt:.2f}, regret={regret:.2f}")
     return rewards
 
-def run_all(rounds=2000, n_arms=3, n_features=5, noise_std=0.2, gap_strength=0.05, reward_type="gaussian", verbose=False, sweep=False):
-    alpha_values = [0.5]
-    v_values = [0.5]
+def run_all(rounds=2000, n_arms=3, n_features=5, noise_std=0.2, gap_strength=0.05, reward_type="gaussian", verbose=False, sweep=False, **kwargs):
+    alpha_values = [kwargs.get("alpha", 1.0)]
+    v_values = [kwargs.get("v", 1.0)]
+    epsilon_values = [kwargs.get("epsilon", 0.1)]
+    lr_values = [kwargs.get("lr", 0.01)]
     if sweep:
         alpha_values = [0.1, 0.5, 1.0, 2.0]
         v_values = [0.1, 0.5, 1.0, 2.0]
+        epsilon_values = [0.01, 0.1, 0.2, 0.5]
 
     # Shared environment with fixed true weights
     env = ContextualBanditEnv(n_arms=n_arms, n_features=n_features, noise_std=noise_std, reward_type=reward_type)
@@ -42,6 +47,12 @@ def run_all(rounds=2000, n_arms=3, n_features=5, noise_std=0.2, gap_strength=0.0
     }
     bandits.update({
         f"linthompson (v={v_value})": LinThompsonBandit(n_arms, n_features, v=v_value) for v_value in v_values
+    })
+    bandits.update({
+        f"epsilon_greedy (epsilon={epsilon_value})": ContextualEpsilonGreedyBandit(n_arms, n_features, epsilon=epsilon_value, lr=lr_values[0]) for epsilon_value in epsilon_values
+    })
+    bandits.update({
+        f"logistic (lr={lr_value})": LogisticBandit(n_arms, n_features, lr=lr_value) for lr_value in lr_values
     })
     # Add classic bandits for comparison
     bandits.update({
