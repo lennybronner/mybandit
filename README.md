@@ -33,7 +33,7 @@ python main.py --mode classic --algo comparison --rounds 10000
 | noise_std    | float   | standard deviation for noise in rewards (contextual)    |
 | reward_type  | str     | `gaussian` or `bernoulli` (only for contextual)    |
 | verbose      | flag    | printing verbose output during comparison      |
-
+| sweep        | flag    | run a sweep of hyperparameters (contextual comparison) |
 
 ## Things to implement:
 - non-stationarity

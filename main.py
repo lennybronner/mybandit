@@ -30,18 +30,19 @@ if __name__ == "__main__":
                         help="Print detailed output")
     parser.add_argument("--rounds", type=int, default=1000,
                         help="Number of rounds to simulate")
-
+    parser.add_argument("--sweep", action="store_true",
+                        help="Run a sweep of hyperparameters (only for contextual comparison)")
 
     args = parser.parse_args()
 
     if args.algo == "comparison":
         if args.mode == "classic":
-            run_classic_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms, verbose=args.verbose)
+            run_classic_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms, verbose=args.verbose, sweep=args.sweep)
         elif args.mode == "contextual":
             run_contextual_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms,
                                               n_features=args.n_features, noise_std=args.noise_std,
                                               gap_strength=args.gap_strength, reward_type=args.reward_type,
-                                              verbose=args.verbose)
+                                              verbose=args.verbose, sweep=args.sweep)
     else:
         if args.mode == "classic":
             run_classic.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms, epsilon=args.epsilon)
