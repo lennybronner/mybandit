@@ -23,7 +23,7 @@ if __name__ == "__main__":
     parser.add_argument("--gap_strength", type=float, default=1,
                         help="How big of a gap between the arms (only for contextual comparison)")
     parser.add_argument("--noise_std", type=float, default=0.2,
-                        help="Standard deviation of noise in rewards (only for contextual comparison)")
+                        help="Standard deviation of noise in rewards (only for contextual)")
     parser.add_argument("--reward_type", type=str, choices=["bernoulli", "gaussian"], default="gaussian",
                         help="Type of reward distribution (only for contextual bandits)")
     parser.add_argument("--verbose", action="store_true",
@@ -47,5 +47,6 @@ if __name__ == "__main__":
             run_classic.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms, epsilon=args.epsilon)
         elif args.mode == "contextual":
             run_contextual.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms,
-                               n_features=args.n_features, alpha=args.alpha, v=args.v,
-                               reward_type=args.reward_type)
+                               n_features=args.n_features, noise_std=args.noise_std, 
+                               reward_type=args.reward_type,
+                               alpha=args.alpha, v=args.v)
