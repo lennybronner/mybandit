@@ -20,7 +20,6 @@ python main.py --mode classic --algo comparison --rounds 10000
 ```
 
 ## Things to implement:
-- contextual bandits
 - non-stationarity
 - combinatorial bandits
 - (maybe adverserial bandits)
