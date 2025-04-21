@@ -23,3 +23,5 @@ python main.py --mode classic --algo comparison --rounds 10000
 - non-stationarity
 - combinatorial bandits
 - (maybe adverserial bandits)
+
+- for contexual, add logistic regression per arm or bayesian logistic bandits

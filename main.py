@@ -21,9 +21,13 @@ if __name__ == "__main__":
     parser.add_argument("--v", type=float, default=1.0,
                         help="Variance parameter (only for LinThompson)")
     parser.add_argument("--gap_strength", type=float, default=1,
-                        help="How big of a gap between the arms (only for comparison)")
+                        help="How big of a gap between the arms (only for contextual comparison)")
     parser.add_argument("--noise_std", type=float, default=0.2,
-                        help="Standard deviation of noise in rewards (only for comparison)")
+                        help="Standard deviation of noise in rewards (only for contextual comparison)")
+    parser.add_argument("--reward_type", type=str, choices=["bernoulli", "gaussian"], default="gaussian",
+                        help="Type of reward distribution (only for contextual bandits)")
+    parser.add_argument("--verbose", action="store_true",
+                        help="Print detailed output")
     parser.add_argument("--rounds", type=int, default=1000,
                         help="Number of rounds to simulate")
 
@@ -32,13 +36,16 @@ if __name__ == "__main__":
 
     if args.algo == "comparison":
         if args.mode == "classic":
-            run_classic_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms)
+            run_classic_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms, verbose=args.verbose)
         elif args.mode == "contextual":
             run_contextual_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms,
-                                              n_features=args.n_features)
+                                              n_features=args.n_features, noise_std=args.noise_std,
+                                              gap_strength=args.gap_strength, reward_type=args.reward_type,
+                                              verbose=args.verbose)
     else:
         if args.mode == "classic":
             run_classic.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms, epsilon=args.epsilon)
         elif args.mode == "contextual":
             run_contextual.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms,
-                               n_features=args.n_features, alpha=args.alpha, v=args.v)
+                               n_features=args.n_features, alpha=args.alpha, v=args.v,
+                               reward_type=args.reward_type)
