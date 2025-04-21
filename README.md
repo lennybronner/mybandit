@@ -37,6 +37,8 @@ python main.py --mode classic --algo comparison --rounds 10000
 | sweep          | flag    | run a sweep of hyperparameters (contextual comparison) |
 | drift          | flag    | whether to add drift (non-stationarity) to the environment |
 | time_dependent | flag    | whether the drift should change over time |
+| drift_rate     | float   | drift magnitude |
+| drift_frequency| int     | faster drift oscillation |
 | discount       | flag    | whether to discount previous updates to adapt to drift |
 
 ## Things to implement:
