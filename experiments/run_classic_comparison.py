@@ -2,7 +2,7 @@ from bandits.classic.epsilon_greedy import EpsilonGreedyBandit
 from bandits.classic.ucb import UCB1Bandit
 from bandits.classic.thompson import ThompsonSamplingBandit
 from experiments.environments.classic import ClassicBanditEnv
-from experiments.utils.plot import plot_multiple_cumulative_rewards, plot_multiple_regrets, plot_multiple_running_ctr
+from experiments.utils.plot import plot_multiple_cumulative_rewards, plot_multiple_regrets, plot_multiple_running_average_rewards
 
 import numpy as np
 
@@ -41,4 +41,4 @@ def run_all(rounds=10000, n_arms=3, verbose=False, sweep=False, **kwargs):
 
     plot_multiple_cumulative_rewards(results)
     plot_multiple_regrets(results, optimal_reward)
-    plot_multiple_running_ctr(results)
+    plot_multiple_running_average_rewards(results)

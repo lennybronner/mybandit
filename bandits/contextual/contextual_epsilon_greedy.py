@@ -11,12 +11,13 @@ class ContextualEpsilonGreedyBandit(BaseBandit):
     by selecting the arm with the highest predicted reward based on the context.
     The model updates theta parameters using online linear regression.
     """
-    def __init__(self, n_arms, n_features, epsilon=0.1, lr=0.01):
+    def __init__(self, n_arms, n_features, epsilon=0.1, lr=0.01, discount=1.0):
         super().__init__(n_arms)
         self.n_features = n_features
         self.epsilon = epsilon
         self.lr = lr
         self.theta = [np.zeros(n_features) for _ in range(n_arms)]
+        self.discount = discount
 
     def select_arm(self, **kwargs):
         x = kwargs.get('context', None)
@@ -37,6 +38,7 @@ class ContextualEpsilonGreedyBandit(BaseBandit):
         # online linear regression update
         pred = x @ self.theta[arm]
         error = reward - pred
+        self.theta[arm] *= self.discount
         self.theta[arm] += self.lr * error * x
 
     def reset(self):

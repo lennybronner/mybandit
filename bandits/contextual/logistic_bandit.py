@@ -8,11 +8,12 @@ class LogisticBandit(BaseBandit):
     The model is updated using gradient ascent based on the received reward.
     The reward is assumed to be binary (0 or 1).
     """
-    def __init__(self, n_arms, n_features, lr=0.1):
+    def __init__(self, n_arms, n_features, lr=0.1, discount=1.0):
         super().__init__(n_arms)
         self.n_features = n_features
         self.lr = lr
         self.theta = [np.zeros(n_features) for _ in range(n_arms)]
+        self.discount = discount
 
     def sigmoid(self, z):
         return 1 / (1 + np.exp(-z))
@@ -32,6 +33,7 @@ class LogisticBandit(BaseBandit):
         
         pred = self.sigmoid(context @ self.theta[arm])
         error = reward - pred
+        self.theta[arm] *= self.discount
         self.theta[arm] += self.lr * error * context
 
     def reset(self):

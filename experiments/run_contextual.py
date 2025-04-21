@@ -3,10 +3,10 @@ from bandits.contextual.lin_thompson import LinThompsonBandit
 from bandits.contextual.contextual_epsilon_greedy import ContextualEpsilonGreedyBandit
 from bandits.contextual.logistic_bandit import LogisticBandit
 from experiments.environments.contextual import ContextualBanditEnv
-from experiments.utils.plot import plot_cumulative_reward, plot_arm_selection, plot_running_ctr
+from experiments.utils.plot import plot_cumulative_reward, plot_arm_selection, plot_running_average_reward
 
-def run(rounds=1000, algo='linucb', n_arms=3, n_features=5, noise_std=0.2, reward_type="gaussian", **kwargs):
-    env = ContextualBanditEnv(n_arms=n_arms, n_features=n_features, noise_std=noise_std, reward_type=reward_type)
+def run(rounds=1000, algo='linucb', n_arms=3, n_features=5, **kwargs):
+    env = ContextualBanditEnv(n_arms=n_arms, n_features=n_features, **kwargs)
 
     if algo == 'linucb':
         alpha = kwargs.get('alpha', 1.0)
@@ -43,5 +43,4 @@ def run(rounds=1000, algo='linucb', n_arms=3, n_features=5, noise_std=0.2, rewar
 
     plot_cumulative_reward(rewards, title="Cumulative Reward")
     plot_arm_selection(counts, title="Arm Selection")
-    if reward_type == "bernoulli":
-        plot_running_ctr(rewards, title="Running CTR")
+    plot_running_average_reward(rewards, title="Running CTR")

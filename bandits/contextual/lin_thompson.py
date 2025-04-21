@@ -25,13 +25,15 @@ class LinThompsonBandit(BaseBandit):
         - v^2 is a variance scaling parameter (controls exploration)
     """
 
-    def __init__(self, n_arms, n_features, v=1.0):
+    def __init__(self, n_arms, n_features, v=1.0, discount=1.0):
         super().__init__(n_arms)
         self.n_features = n_features
         self.v = v
 
         self.A = [np.identity(n_features) for _ in range(n_arms)]
         self.b = [np.zeros(n_features) for _ in range(n_arms)]
+
+        self.discount = discount
 
     def select_arm(self, **kwargs):
         x = kwargs.get('context', None)
@@ -55,6 +57,8 @@ class LinThompsonBandit(BaseBandit):
         if x is None:
             raise ValueError("Context must be provided for LinThompson.")
         
+        self.A[arm] *= self.discount
+        self.b[arm] *= self.discount
         self.A[arm] += np.outer(x, x)
         self.b[arm] += reward * x
 

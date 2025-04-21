@@ -34,23 +34,46 @@ if __name__ == "__main__":
                         help="Number of rounds to simulate")
     parser.add_argument("--sweep", action="store_true",
                         help="Run a sweep of hyperparameters (only for contextual comparison)")
+    parser.add_argument("--drift", action="store_true",
+                        help="Enable drift in the environment (only for contextual bandits)")
+    parser.add_argument("--time_dependent", action="store_true",
+                        help="Enable time-dependent drift (only for contextual bandits)")
+    parser.add_argument("--drift_rate", type=float, default=0.01,
+                        help="Rate of drift in the environment (only for contextual bandits)")
+    parser.add_argument("--drift_frequency", type=int, default=100,
+                        help="Frequency of drift in the environment (only for contextual bandits)")
+    parser.add_argument("--discount", type=float, default=1.0,
+                        help="Discount parameters to adapt to drift (only for contextual bandits)")
 
     args = parser.parse_args()
 
+    environment_context = {
+        "noise_std": args.noise_std,
+        "reward_type": args.reward_type,
+        "gap_strength": args.gap_strength,
+        "drift": args.drift,
+        "time_dependent": args.time_dependent,
+        "drift_rate": args.drift_rate,
+        "drift_frequency": args.drift_frequency,
+    }
+
+    model_context = {
+        "alpha": args.alpha,
+        "v": args.v,
+        "epsilon": args.epsilon,
+        "lr": args.lr,
+        "discount": args.discount,
+    }
+
     if args.algo == "comparison":
         if args.mode == "classic":
-            run_classic_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms, verbose=args.verbose, sweep=args.sweep, epsilon=args.epsilon)
+            run_classic_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms, verbose=args.verbose, sweep=args.sweep, **model_context)
         elif args.mode == "contextual":
-            run_contextual_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms,
-                                              n_features=args.n_features, noise_std=args.noise_std,
-                                              gap_strength=args.gap_strength, reward_type=args.reward_type,
+            run_contextual_comparison.run_all(rounds=args.rounds, n_arms=args.n_arms, n_features=args.n_features,
                                               verbose=args.verbose, sweep=args.sweep,
-                                              alpha=args.alpha, v=args.v, epsilon=args.epsilon, lr=args.lr)
+                                              **environment_context, **model_context)
     else:
         if args.mode == "classic":
-            run_classic.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms, epsilon=args.epsilon)
+            run_classic.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms, **model_context)
         elif args.mode == "contextual":
-            run_contextual.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms,
-                               n_features=args.n_features, noise_std=args.noise_std, 
-                               reward_type=args.reward_type,
-                               alpha=args.alpha, v=args.v, epsilon=args.epsilon, lr=args.lr)
+            run_contextual.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms, n_features=args.n_features, **environment_context, **model_context)

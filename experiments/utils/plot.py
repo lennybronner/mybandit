@@ -22,13 +22,13 @@ def plot_arm_selection(counts, title="Arm Selection Counts"):
     plt.tight_layout()
     plt.show()
 
-def plot_running_ctr(rewards, title="Running CTR"):
+def plot_running_average_reward(rewards, title="Running Averge Reward"):
     avg = np.cumsum(rewards) / (np.arange(len(rewards)) + 1)
     plt.figure(figsize=(8, 4))
     plt.plot(avg)
     plt.title(title)
     plt.xlabel("Round")
-    plt.ylabel("Average Reward (CTR)")
+    plt.ylabel("Average Reward")
     plt.grid(True)
     plt.tight_layout()
     plt.show()
@@ -58,14 +58,14 @@ def plot_multiple_regrets(results, optimal_reward):
     plt.tight_layout()
     plt.show()
 
-def plot_multiple_running_ctr(rewards):
+def plot_multiple_running_average_rewards(rewards):
     plt.figure(figsize=(10, 5))
     for label, reward in rewards.items():
         avg = np.cumsum(reward) / (np.arange(len(reward)) + 1)
         plt.plot(avg, label=label)
     plt.xlabel("Rounds")
-    plt.ylabel("Average Reward (CTR)")
-    plt.title("Running CTR Over Time")
+    plt.ylabel("Average Reward")
+    plt.title("Running Average Reward Over Time")
     plt.legend()
     plt.grid(True)
     plt.tight_layout()

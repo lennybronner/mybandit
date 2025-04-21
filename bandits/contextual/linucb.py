@@ -20,12 +20,13 @@ class LinUCBBandit(BaseBandit):
         - \hat{\theta}_a = A_a^-1 * b_a
     """
 
-    def __init__(self, n_arms, n_features, alpha=1.0):
+    def __init__(self, n_arms, n_features, alpha=1.0, discount=1.0):
         super().__init__(n_arms)
         self.n_features = n_features
         self.alpha = alpha
         self.A = [np.identity(n_features) for _ in range(n_arms)] # A = X^T X + I
         self.b = [np.zeros(n_features) for _ in range(n_arms)] # b = X^T y
+        self.discount = discount
 
     def select_arm(self, **kwargs):
         x = kwargs.get('context', None)
@@ -47,6 +48,8 @@ class LinUCBBandit(BaseBandit):
         if x is None:
             raise ValueError("Context must be provided for LinUCB.")
         
+        self.A[arm] *= self.discount
+        self.b[arm] *= self.discount
         self.A[arm] += np.outer(x, x)
         self.b[arm] += reward * x
 
