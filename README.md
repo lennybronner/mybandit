@@ -43,8 +43,5 @@ python main.py --mode classic --algo comparison --rounds 10000
 | k              | int     | number of arms to pull (combinatorial bandit) |
 
 ## Things to implement:
-- non-stationarity
-- combinatorial bandits
-- (maybe adverserial bandits)
-
-- for contexual, add logistic regression per arm or bayesian logistic bandits
+- cascade combinatorial bandits
+- adverserial bandits
