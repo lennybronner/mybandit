@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def plot_cumulative_reward(rewards, title="Cumulative Reward"):
+    if isinstance(rewards[0], list):
+        rewards = [sum(r) for r in rewards]
     cumulative = np.cumsum(rewards)
     plt.figure(figsize=(10, 4))
     plt.plot(cumulative, label="Cumulative Reward")
@@ -23,6 +25,8 @@ def plot_arm_selection(counts, title="Arm Selection Counts"):
     plt.show()
 
 def plot_running_average_reward(rewards, title="Running Averge Reward"):
+    if isinstance(rewards[0], list):
+        rewards = [sum(r) for r in rewards]
     avg = np.cumsum(rewards) / (np.arange(len(rewards)) + 1)
     plt.figure(figsize=(8, 4))
     plt.plot(avg)

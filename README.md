@@ -40,6 +40,7 @@ python main.py --mode classic --algo comparison --rounds 10000
 | drift_rate     | float   | drift magnitude |
 | drift_frequency| int     | faster drift oscillation |
 | discount       | flag    | whether to discount previous updates to adapt to drift |
+| k              | int     | number of arms to pull (combinatorial bandit) |
 
 ## Things to implement:
 - non-stationarity

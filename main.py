@@ -3,10 +3,11 @@ from experiments import run_classic
 from experiments import run_classic_comparison 
 from experiments import run_contextual
 from experiments import run_contextual_comparison
+from experiments import run_combinatorial
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a bandit experiment.")
-    parser.add_argument("--mode", type=str, choices=["classic", "contextual"], default="classic",
+    parser.add_argument("--mode", type=str, choices=["classic", "contextual", "combinatorial"], default="classic",
                         help="Type of bandit experiment to run.")
     parser.add_argument("--algo", type=str, default="epsilon_greedy",
                         help="Which bandit algorithm to use (or comparison)")
@@ -44,7 +45,8 @@ if __name__ == "__main__":
                         help="Frequency of drift in the environment (only for contextual bandits)")
     parser.add_argument("--discount", type=float, default=1.0,
                         help="Discount parameters to adapt to drift (only for contextual bandits)")
-
+    parser.add_argument("--k", type=int, default=2,
+                        help="Number of arms to pull in combinatorial bandits (only for combinatorial bandits)")
     args = parser.parse_args()
 
     environment_context = {
@@ -77,3 +79,5 @@ if __name__ == "__main__":
             run_classic.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms, **model_context)
         elif args.mode == "contextual":
             run_contextual.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms, n_features=args.n_features, **environment_context, **model_context)
+        elif args.mode == "combinatorial":
+            run_combinatorial.run(rounds=args.rounds, algo=args.algo, n_arms=args.n_arms, n_features=args.n_features, k=args.k, **environment_context, **model_context)

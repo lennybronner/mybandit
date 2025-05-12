@@ -4,8 +4,6 @@ from bandits.contextual.linucb import LinUCBBandit
 from bandits.contextual.lin_thompson import LinThompsonBandit
 from bandits.contextual.contextual_epsilon_greedy import ContextualEpsilonGreedyBandit
 from bandits.contextual.logistic_bandit import LogisticBandit
-from bandits.classic.ucb import UCB1Bandit
-from bandits.classic.thompson import ThompsonSamplingBandit
 from experiments.environments.contextual import ContextualBanditEnv
 from experiments.utils.plot import plot_multiple_cumulative_rewards, plot_multiple_regrets, plot_multiple_running_average_rewards
 
