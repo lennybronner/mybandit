@@ -1,7 +1,9 @@
 from bandits.combinatorial.combinatorial_linucb import CombinatorialLinUCBBandit
 from bandits.combinatorial.combinatorial_thompson import CombinatorialThompsonSamplingBandit
 from experiments.environments.combinatorial import CombinatorialBanditEnv
-from experiments.utils.plot import plot_cumulative_reward, plot_arm_selection, plot_running_average_reward
+from experiments.utils.plot import plot_cumulative_reward, plot_arm_selection, plot_running_average_reward, plot_arm_selection_over_time
+
+import numpy as np
 
 def run(rounds=1000, algo='linucb', n_arms=3, n_features=5, k=2, **kwargs):
     env = CombinatorialBanditEnv(n_arms=n_arms, n_features=n_features, k=k, **kwargs)
@@ -17,6 +19,7 @@ def run(rounds=1000, algo='linucb', n_arms=3, n_features=5, k=2, **kwargs):
 
     all_rewards = []
     counts = [0] * n_arms
+    arm_counts_over_time = np.zeros((n_arms, rounds))
 
     for _ in range(rounds):
         context = env.get_context()
@@ -27,6 +30,7 @@ def run(rounds=1000, algo='linucb', n_arms=3, n_features=5, k=2, **kwargs):
         all_rewards.append(rewards)
         for arm in arms:
             counts[arm] += 1
+            arm_counts_over_time[arm, _] = 1
 
     total_reward = sum([sum(rewards) for rewards in all_rewards])
     print(f"\n=== Combinatorial Bandit Results ===")
@@ -37,3 +41,5 @@ def run(rounds=1000, algo='linucb', n_arms=3, n_features=5, k=2, **kwargs):
     plot_cumulative_reward(all_rewards, title="Cumulative Reward")
     plot_arm_selection(counts, title="Arm Selection")
     plot_running_average_reward(all_rewards, title="Running CTR")
+    plot_arm_selection_over_time(arm_counts_over_time, title="Arm Selection Over Time", rate=False)
+    plot_arm_selection_over_time(arm_counts_over_time, title="Arm Selection Over Time", rate=True)

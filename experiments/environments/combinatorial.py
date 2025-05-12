@@ -34,5 +34,5 @@ class CombinatorialBanditEnv:
             for arm in arms:
                 mean = np.dot(self.theta[arm], context)
                 reward = np.random.normal(mean, self.noise_std)
-            rewards.append(reward)
+                rewards.append(reward)
         return rewards

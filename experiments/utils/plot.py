@@ -74,3 +74,19 @@ def plot_multiple_running_average_rewards(rewards):
     plt.grid(True)
     plt.tight_layout()
     plt.show()
+
+def plot_arm_selection_over_time(counts_over_time, title="Arm Selections Over Time", rate=True):
+    plt.figure(figsize=(10, 6))
+    rounds = counts_over_time.shape[1]
+    for arm in range(counts_over_time.shape[0]):
+        if rate:
+            plt.plot(np.cumsum(counts_over_time[arm]) / (np.arange(1, rounds + 1)), label=f"Arm {arm}")
+        else:
+            plt.plot(np.cumsum(counts_over_time[arm]), label=f"Arm {arm}")
+    plt.xlabel("Rounds")
+    plt.ylabel("Cumulative Selections")
+    plt.title(title)
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
