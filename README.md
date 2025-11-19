@@ -45,3 +45,4 @@ python main.py --mode classic --algo comparison --rounds 10000
 ## Things to implement:
 - cascade combinatorial bandits
 - adverserial bandits
+- warmup
